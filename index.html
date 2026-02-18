@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proton_Script | Футуристическое веб-портфолио</title>
+    <!-- Google Fonts: добавляем моноширинный для киберпанк-стиля -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (иконки) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0b0c10; /* тёмный фон для футуризма */
+            color: #c5c6c7;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Футуристическая цветовая схема */
+        :root {
+            --primary: #4a90e2;
+            --primary-glow: rgba(74,144,226,0.6);
+            --secondary: #f0b341;
+            --dark-bg: #0b0c10;
+            --light-text: #c5c6c7;
+            --card-bg: #1f2833;
+        }
+
+        /* Навигация */
+        .navbar {
+            background-color: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--primary-glow);
+            transition: text-shadow 0.3s;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px var(--primary-glow));
+            vertical-align: middle;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light-text);
+            font-weight: 500;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            text-shadow: 0 0 8px var(--primary);
+        }
+
+        /* Общие стили секций */
+        .section {
+            padding: 5rem 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        /* Обо мне */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .futuristic-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+            line-height: 1.2;
+            background: linear-gradient(135deg, #4a90e2, #a0c0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(74,144,226,0.5));
+        }
+
+        .futuristic-logo i {
+            font-size: 6rem;
+            margin-right: 20px;
+            color: var(--primary);
+            -webkit-text-fill-color: initial; /* отключаем градиент для иконки, оставляем цветной */
+            background: none;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .bio p {
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            color: var(--light-text);
+        }
+
+        .bio strong {
+            color: white;
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        /* Проекты */
+        .filter-buttons {
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            padding: 0.6rem 1.8rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0 0 5px transparent;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: #0b0c10;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .filter-btn:hover {
+            background-color: var(--primary);
+            color: #0b0c10;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(74,144,226,0.2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px rgba(74,144,226,0.3);
+            border-color: var(--primary);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+            background-color: #0f1a24;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s, filter 0.5s;
+            filter: brightness(0.9);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .project-category {
+            display: inline-block;
+            background-color: rgba(74,144,226,0.2);
+            color: var(--primary);
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(74,144,226,0.3);
+        }
+
+        /* Гарантии */
+        .guarantee-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .guarantee-item {
+            background: var(--card-bg);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(74,144,226,0.2);
+            transition: all 0.3s;
+        }
+
+        .guarantee-item:hover {
+            box-shadow: 0 15px 30px rgba(74,144,226,0.2);
+            border-color: var(--primary);
+        }
+
+        .guarantee-item i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            filter: drop-shadow(0 0 8px var(--primary-glow));
+        }
+
+        .guarantee-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .guarantee-item p {
+            color: var(--light-text);
+        }
+
+        /* Статистика */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            border-radius: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            margin-top: 2rem;
+            border: 1px solid rgba(74,144,226,0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+            line-height: 1.2;
+            text-shadow: 0 0 15px var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        /* Футер */
+        footer {
+            background-color: #0a0c0f;
+            color: #6f7a8a;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(74,144,226,0.3);
+        }
+
+        footer p {
+            margin: 0.3rem 0;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            position: relative;
+            animation: fadeIn 0.3s;
+            border: 1px solid var(--primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        #modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #modal-description {
+            margin: 1rem 0;
+            color: var(--light-text);
+        }
+
+        .modal-content p {
+            margin: 0.5rem 0;
+        }
+        .modal-content strong {
+            color: white;
+        }
+
+        /* Кнопка "Наверх" */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: #0b0c10;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--primary-glow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            background-color: white;
+            color: var(--primary);
+            box-shadow: 0 0 30px white;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .about-content {
+                justify-content: center;
+                text-align: center;
+            }
+            h2:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            h2 {
+                text-align: center;
+                display: block;
+            }
+            .filter-buttons {
+                justify-content: center;
+            }
+            .futuristic-logo {
+                font-size: 3rem;
+            }
+            .futuristic-logo i {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация с футуристическим логотипом -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-atom"></i> Proton_Script
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#projects">Проекты</a></li>
+            <li><a href="#guarantee">Гарантия</a></li>
+        </ul>
+    </nav>
+
+    <!-- Секция Обо мне с крупным логотипом (без кружка) -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>Обо мне</h2>
+            <div class="about-content">
+                <div class="futuristic-logo">
+                    <i class="fas fa-atom"></i> Proton_Script
+                </div>
+                <div class="bio">
+                    <p>Меня зовут <strong>Михаил</strong>, я основатель студии <strong>Proton_Script</strong>. В веб-разработку пришел в 2015 году, когда создал свой первый сайт для друзей. Меня настолько увлекло это дело, что я решил развиваться профессионально.</p>
+                    <p>Собрал команду талантливых разработчиков, дизайнеров и менеджеров. Вместе мы создаем сайты, которые приносят пользу бизнесу и радуют пользователей. За плечами более 150 успешных проектов разной сложности: от сайтов-визиток до крупных интернет-магазинов и веб-приложений.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Проекты -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>Проекты</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="ecommerce">Интернет-магазины</button>
+                <button class="filter-btn" data-filter="corporate">Корпоративные</button>
+                <button class="filter-btn" data-filter="landing">Лендинги</button>
+                <button class="filter-btn" data-filter="other">Другое</button>
+            </div>
+            <div class="projects-grid" id="projects-grid"></div>
+        </div>
+    </section>
+
+    <!-- Секция Гарантия -->
+    <section id="guarantee" class="section">
+        <div class="container">
+            <h2>Гарантии</h2>
+            <div class="guarantee-items">
+                <div class="guarantee-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>Соблюдение сроков</h3>
+                    <p>Чёткое планирование и контроль позволяют сдавать проекты вовремя.</p>
+                </div>
+                <div class="guarantee-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Качество и безопасность</h3>
+                    <p>Используем современные стандарты, защиту от взломов, тестируем код.</p>
+                </div>
+                <div class="guarantee-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>Поддержка после сдачи</h3>
+                    <p>Не бросаем клиентов: обучаем работе с сайтом, помогаем с доработками.</p>
+                </div>
+                <div class="guarantee-item">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3>Гарантия возврата</h3>
+                    <p>Если результат не устроит, вернем деньги. (Условия обсуждаем индивидуально)</p>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="8">0</span>
+                    <span class="stat-label">Лет опыта</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-label">Проектов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="120">0</span>
+                    <span class="stat-label">Довольных клиентов</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p>© 2025 Proton_Script. Все права защищены.</p>
+        <p>Email: bulgakov.misha2020@gmail.com | Тел: +79133645728</p>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p><strong>Категория:</strong> <span id="modal-category"></span></p>
+            <p><strong>Технологии:</strong> <span id="modal-tech"></span></p>
+            <p><strong>Год:</strong> <span id="modal-year"></span></p>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="back-to-top" title="Наверх">↑</button>
+
+    <script>
+        (function() {
+            // ---------- Данные проектов с изображениями, похожими на реальные сайты (мокапы/скриншоты) ----------
+            const projects = [
+                { id: 1, title: 'ElectroWorld', category: 'ecommerce', description: 'Интернет-магазин электроники с каталогом, корзиной и личным кабинетом.', tech: 'React, Node.js, MongoDB', year: 2024, image: 'https://images.unsplash.com/photo-1556740714-a8395b3bf30f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // ноутбук с интернет-магазином
+                { id: 2, title: 'СтройИнвест', category: 'corporate', description: 'Корпоративный сайт строительной компании с портфолио объектов.', tech: 'HTML, CSS, JavaScript, PHP', year: 2023, image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // строительная техника (можно заменить на сайт)
+                { id: 3, title: 'EnglishFast', category: 'landing', description: 'Лендинг для курсов английского языка с формой записи.', tech: 'HTML, CSS, JavaScript', year: 2024, image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // студенты за ноутбуком
+                { id: 4, title: 'FlatFinder', category: 'other', description: 'Портал недвижимости с поиском и фильтрацией объектов.', tech: 'Vue.js, Laravel, MySQL', year: 2023, image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // интерьер дома
+                { id: 5, title: 'Адвокат Иванов', category: 'other', description: 'Сайт-визитка с информацией об услугах и контактах.', tech: 'HTML, CSS, JavaScript', year: 2022, image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // юридические книги
+                { id: 6, title: 'FlowerPower', category: 'ecommerce', description: 'Магазин цветов с доставкой и онлайн-оплатой.', tech: 'React, Redux, Node.js', year: 2024, image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // букет цветов
+                { id: 7, title: 'TravelStory', category: 'other', description: 'Блог о путешествиях с возможностью комментировать.', tech: 'WordPress, PHP', year: 2023, image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // путешественник с рюкзаком
+                { id: 8, title: 'Уют', category: 'corporate', description: 'Сайт ресторана с меню и бронированием столиков.', tech: 'HTML, CSS, JavaScript', year: 2023, image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // ресторанный зал
+                { id: 9, title: 'TaskMaster', category: 'other', description: 'Веб-приложение для учёта задач и проектов (трекер).', tech: 'Vue.js, Express, PostgreSQL', year: 2024, image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // планнер на столе
+                { id: 10, title: 'FitLife', category: 'landing', description: 'Лендинг фитнес-клуба с расписанием и формой обратной связи.', tech: 'HTML, CSS, JavaScript', year: 2023, image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // тренажёрный зал
+                { id: 11, title: 'MebelStyle', category: 'other', description: 'Каталог мебели с фильтрацией и запросом цен.', tech: 'React, Bootstrap, PHP', year: 2022, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // современная мебель
+                { id: 12, title: 'LightRoom', category: 'other', description: 'Сайт фотостудии с портфолио и прайс-листом.', tech: 'HTML, CSS, JavaScript', year: 2023, image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // фотоаппарат
+                { id: 13, title: 'FashionTrend', category: 'ecommerce', description: 'Интернет-магазин одежды с фильтрами и личным кабинетом.', tech: 'React, Redux, Node.js', year: 2024, image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // одежда на вешалках
+                { id: 14, title: 'DevSoft', category: 'corporate', description: 'Корпоративный сайт IT-компании с услугами и вакансиями.', tech: 'HTML, CSS, JavaScript', year: 2023, image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' }, // код на экране
+                { id: 15, title: 'Знания', category: 'landing', description: 'Лендинг онлайн-школы с курсами и отзывами.', tech: 'HTML, CSS, JavaScript', year: 2024, image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80' } // книги и учёба
+            ];
+
+            // ---------- Элементы DOM ----------
+            const projectsGrid = document.getElementById('projects-grid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-description');
+            const modalCategory = document.getElementById('modal-category');
+            const modalTech = document.getElementById('modal-tech');
+            const modalYear = document.getElementById('modal-year');
+            const closeModal = document.querySelector('.close');
+            const backToTop = document.getElementById('back-to-top');
+
+            // ---------- Рендер проектов ----------
+            function renderProjects(filter = 'all') {
+                const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+                projectsGrid.innerHTML = filtered.map(project => `
+                    <div class="project-card" data-id="${project.id}">
+                        <div class="project-image">
+                            <img src="${project.image}" alt="${project.title}" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3>${project.title}</h3>
+                            <span class="project-category">${getCategoryName(project.category)}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+                });
+            }
+
+            function getCategoryName(cat) {
+                const map = {
+                    'ecommerce': 'Интернет-магазин',
+                    'corporate': 'Корпоративный',
+                    'landing': 'Лендинг',
+                    'other': 'Другое'
+                };
+                return map[cat] || cat;
+            }
+
+            // ---------- Фильтрация ----------
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderProjects(btn.dataset.filter);
+                });
+            });
+
+            // ---------- Модальное окно ----------
+            function openModal(id) {
+                const project = projects.find(p => p.id === id);
+                if (!project) return;
+                modalTitle.textContent = project.title;
+                modalDesc.textContent = project.description;
+                modalCategory.textContent = getCategoryName(project.category);
+                modalTech.textContent = project.tech;
+                modalYear.textContent = project.year;
+                modal.style.display = 'flex';
+            }
+
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+
+            // ---------- Плавный скролл ----------
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // ---------- Кнопка "Наверх" ----------
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ---------- Анимированные счётчики ----------
+            const statNumbers = document.querySelectorAll('.stat-number');
+            let animated = false;
+
+            function animateNumbers() {
+                if (animated) return;
+                const statsSection = document.querySelector('.stats');
+                const rect = statsSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+                if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
+                    animated = true;
+                    statNumbers.forEach(stat => {
+                        const target = parseInt(stat.getAttribute('data-target'));
+                        let current = 0;
+                        const increment = target / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                stat.textContent = target;
+                                clearInterval(timer);
+                            } else {
+                                stat.textContent = Math.floor(current);
+                            }
+                        }, 20);
+                    });
+                }
+            }
+
+            window.addEventListener('scroll', animateNumbers);
+            window.addEventListener('load', animateNumbers);
+
+            // Инициализация
+            renderProjects('all');
+        })();
+    </script>
+</body>
+</html>
